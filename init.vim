@@ -6,14 +6,22 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 
 "Initialize Plugin System
-"Specify a directory for plugins
-call plug#begin('~/.vim/plugged')
+"-----------
+call plug#begin('~/.vim/plugged') "Specify a directory for plugins
 
 "Language Server Protocol
+"-----------
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
+"Language Specific Plugins
+"-----------
+"Language Specific Plugins - Golang
+Plug 'fatih/vim-go'
+
+
 "File System Navigation
+"-----------
 Plug 'scrooloose/nerdtree'
 "Plug 'tsony-tsonev/nerdtree-git-plugin'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -23,10 +31,12 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 
 
-"Not sure if related to nerd tree navigation
+"Text Manipulation
+"-----------
 Plug 'scrooloose/nerdcommenter'
 
-"Not Sure if needed
+"General Vim Plugin
+"-----------
 Plug 'morhetz/gruvbox'
 
 call plug#end()
@@ -36,6 +46,10 @@ call plug#end()
 "General Vim Configurations
 "-----------
 :let mapleader = "\\"
+
+:set hidden " *Not my Comment* if hidden is not set, TextEdit might fail. Some servers have issues with backup files, see #649 set nobackup set nowritebackup 
+:set cmdheight=4 " *Not my Comment* Better display for messages
+:set updatetime=300 " *Not my Comment* You will have bad experience for diagnostic messages when it's default 4000.
 
 "COPY/PASTE:
 "-----------
@@ -49,7 +63,7 @@ call plug#end()
 
 "HIGHLIGHTING
 "------
-:set syntax on
+:syntax on
 :set cursorline
 :set cursorcolumn
 
@@ -57,99 +71,33 @@ call plug#end()
 "------
 :colorscheme gruvbox
 
+"DISPLAY:
+"------
+set signcolumn=yes
 
+"TAB CONVERSION:
+"------
+:set smarttab
+:set tabstop=4
+:set shiftwidth=4
+:set expandtab
+
+"MESSAGES/ERROR ALERT:
+"------
+set shortmess+=c " don't give #c->ins-completion-menu# messages.
 
 "Plugin Configurations
+"-----------
 "Plugin - Language Server Protocol Config
+"-----------
 "Plugin - Language Server Protocol Config - coc.nvim
-"Plugin - File System Navigation
-"Plugin - File System Navigation - nerdtree
-"Plugin - File System Navigation - nerdtree-git-plugin
-"Plugin - File System Navigation - vim-nerdtree-syntax-highlight
-"Plugin - File System Navigation - vim-devicons
-"Plugin - File System Navigation - vim-gitgutter
-"Plugin - File System Navigation - ctrlp.vim
-
-
-
-inoremap jk <ESC>
-nmap <C-n> :NERDTreeToggle<CR>
-vmap <Ctrl-/> <plug>NERDCommenterToggle
-nmap <Ctrl-/> <plug>NERDCommenterToggle
-
-" open NERDTree automatically
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * NERDTree
-
-let g:NERDTreeGitStatusWithFlags = 1
-"let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-"let g:NERDTreeGitStatusNodeColorization = 1
-"let g:NERDTreeColorMapCustom = {
-    "\ "Staged"    : "#0ee375",  
-    "\ "Modified"  : "#d9bf91",  
-    "\ "Renamed"   : "#51C9FC",  
-    "\ "Untracked" : "#FCE77C",  
-    "\ "Unmerged"  : "#FC51E6",  
-    "\ "Dirty"     : "#FFBD61",  
-    "\ "Clean"     : "#87939A",   
-    "\ "Ignored"   : "#808080"   
-    "\ }                         
-
-" ctrlp
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-
-" j/k will move virtual lines (lines that wrap)
-noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
-noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-
-set relativenumber
-
-set smarttab
-set cindent
-set tabstop=2
-set shiftwidth=2
-" always uses spaces instead of tab characters
-set expandtab
-
-colorscheme gruvbox
-
-" sync open file with NERDTree
-" " Check if NERDTree is open or active
-function! IsNERDTreeOpen()        
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
-endfunction
-
-" Highlight currently open buffer in NERDTree
-autocmd BufEnter * call SyncTree()
-
-" coc config
+"-----------
 let g:coc_global_extensions = [
   \ 'coc-snippets',
   \ 'coc-pairs',
-  \ 'coc-tsserver',
-  \ 'coc-eslint', 
-  \ 'coc-prettier', 
-  \ 'coc-json', 
+  \ 'coc-go',
+  \ 'coc-pyright'
   \ ]
-" from readme
-" if hidden is not set, TextEdit might fail.
-set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup " Better display for messages set cmdheight=2 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -204,14 +152,6 @@ nmap <F2> <Plug>(coc-rename)
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
@@ -260,3 +200,67 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+
+"Plugin - File System Navigation
+"-----------
+"Plugin - File System Navigation - nerdtree
+"-----------
+nmap <C-n> :NERDTreeToggle<CR>
+" open NERDTree automatically
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * NERDTree
+
+let g:NERDTreeGitStatusWithFlags = 1
+"let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+"let g:NERDTreeGitStatusNodeColorization = 1
+"let g:NERDTreeColorMapCustom = {
+    "\ "Staged"    : "#0ee375",  
+    "\ "Modified"  : "#d9bf91",  
+    "\ "Renamed"   : "#51C9FC",  
+    "\ "Untracked" : "#FCE77C",  
+    "\ "Unmerged"  : "#FC51E6",  
+    "\ "Dirty"     : "#FFBD61",  
+    "\ "Clean"     : "#87939A",   
+    "\ "Ignored"   : "#808080"   
+    "\ }                         
+
+" sync open file with NERDTree
+" " Check if NERDTree is open or active
+function! IsNERDTreeOpen()        
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
+" Highlight currently open buffer in NERDTree
+autocmd BufEnter * call SyncTree()
+
+"Plugin - File System Navigation - nerdtree-git-plugin
+"-----------
+"Plugin - File System Navigation - vim-nerdtree-syntax-highlight
+"-----------
+"Plugin - File System Navigation - vim-devicons
+"-----------
+"Plugin - File System Navigation - vim-gitgutter
+"-----------
+"Plugin - File System Navigation - ctrlp.vim
+"-----------
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+"Plugin - Text Manipulation
+"-----------
+"Plugin - Text Manipulation - nerd-commenter
+"-----------
+vmap <Ctrl-/> <plug>NERDCommenterToggle
+nmap <Ctrl-/> <plug>NERDCommenterToggle
+
+
+
+
