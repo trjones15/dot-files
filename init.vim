@@ -38,6 +38,7 @@ Plug 'scrooloose/nerdcommenter'
 "General Vim Plugin
 "-----------
 Plug 'morhetz/gruvbox'
+Plug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -63,13 +64,14 @@ call plug#end()
 
 "HIGHLIGHTING
 "------
-:syntax on
+":syntax on
 :set cursorline
 :set cursorcolumn
 
 "COLOR:
 "------
 :colorscheme gruvbox
+":colorscheme treesitter
 
 "DISPLAY:
 "------
@@ -261,6 +263,14 @@ let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclu
 vmap <Ctrl-/> <plug>NERDCommenterToggle
 nmap <Ctrl-/> <plug>NERDCommenterToggle
 
-
-
-
+"Plugin - General Vim Plugin - nvim-treesitter
+"-----------
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "go", "python" },     -- one of "all", "language", or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = {},  -- list of language that will be disabled
+  },
+}
+EOF
