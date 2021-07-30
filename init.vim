@@ -38,7 +38,8 @@ Plug 'scrooloose/nerdcommenter'
 "General Vim Plugin
 "-----------
 Plug 'morhetz/gruvbox'
-Plug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'} " requires languages to be installed :TSInstall python, :TSInstall go
+
 
 call plug#end()
 
