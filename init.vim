@@ -11,6 +11,7 @@ call plug#begin('~/.vim/plugged') "Specify a directory for plugins
 
 "Language Server Protocol
 "-----------
+"Try using the built-in LSP
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
@@ -22,12 +23,13 @@ Plug 'fatih/vim-go'
 
 "File System Navigation
 "-----------
-Plug 'scrooloose/nerdtree'
-"Plug 'tsony-tsonev/nerdtree-git-plugin'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
-Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/nerdtree' " shows file directory to the left
+Plug 'Xuyuanp/nerdtree-git-plugin' " Shows git status flags for files and folders in NERDTree
+"syntax highlighter made NERDTree navigation painfully slow
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Adds syntax highlighting to NERDTree based on filetype
+"According to vim-devicons, you need to install it last
+"Plug 'ryanoasis/vim-devicons' " adds file specific icons to NERDTree files and folders
+Plug 'airblade/vim-gitgutter' " shows git diff in the sign column
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 
 
@@ -39,19 +41,42 @@ Plug 'scrooloose/nerdcommenter'
 "-----------
 Plug 'morhetz/gruvbox'
 Plug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'} " requires languages to be installed :TSInstall python, :TSInstall go
+Plug 'vim-airline/vim-airline'
+Plug 'vim-ariline/vim-airline-themes'
 
-
+"vim-devicons says it needs to be the last plugin installed
+Plug 'ryanoasis/vim-devicons' " adds file specific icons to NERDTree files and folders
 call plug#end()
 
 
 
 "General Vim Configurations
 "-----------
-:let mapleader = "\\"
+:let mapleader = "\<Space>"
 
 :set hidden " *Not my Comment* if hidden is not set, TextEdit might fail. Some servers have issues with backup files, see #649 set nobackup set nowritebackup 
-:set cmdheight=4 " *Not my Comment* Better display for messages
 :set updatetime=300 " *Not my Comment* You will have bad experience for diagnostic messages when it's default 4000.
+:set timeoutlen=500
+
+"FONT
+"-----------
+:set guifont=Hack
+
+"DISPLAY
+"-----------
+:set nowrap " Display long lines as just one line
+:set cmdheight=2 " *Not my Comment* Better display for messages
+:set pumheight=10 " Makes popup menus smaller
+:set signcolumn=yes
+:set ruler
+:set splitbelow
+:set splitright
+:set laststatus=0
+
+"ENCODING
+"-----------
+:set encoding=utf-8
+:set fileencoding =utf-8
 
 "COPY/PASTE:
 "-----------
@@ -65,18 +90,15 @@ call plug#end()
 
 "HIGHLIGHTING
 "------
-":syntax on
+:syntax on
 :set cursorline
-:set cursorcolumn
+":set cursorcolumn
 
 "COLOR:
 "------
 :colorscheme gruvbox
-":colorscheme treesitter
-
-"DISPLAY:
-"------
-set signcolumn=yes
+:set background=dark
+:set t_Co=256
 
 "TAB CONVERSION:
 "------
@@ -95,6 +117,8 @@ set shortmess+=c " don't give #c->ins-completion-menu# messages.
 "-----------
 "Plugin - Language Server Protocol Config - coc.nvim
 "-----------
+:set nobackup "This is recommended by coc
+:set nowritebackup "This is recommended by coc
 let g:coc_global_extensions = [
   \ 'coc-snippets',
   \ 'coc-pairs',
@@ -228,28 +252,60 @@ let g:NERDTreeGitStatusWithFlags = 1
     "\ "Ignored"   : "#808080"   
     "\ }                         
 
-" sync open file with NERDTree
-" " Check if NERDTree is open or active
-function! IsNERDTreeOpen()        
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+" NERDTrees File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
 endfunction
 
+call NERDTreeHighlightFile('md', 'yellow', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('go', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('py', 'Blue', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+
+autocmd VimEnter * NERDTree | wincmd p " Start NERDTree and put the cursor back in the other window.
+
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif " Exit Vim if NERDTree is the only window remaining in the only tab.
+
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif " Close the tab if NERDTree is the only window remaining in it.
+
+nnoremap <C-n> :NERDTreeMirror<CR>:NERDTreeFocus<CR> " Mirror the NERDTree before showing it. This makes it the same on all tabs.
+
+"function! IsNERDTreeOpen()        
+"  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+"endfunction
+"
 " Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
 " file, and we're not in vimdiff
-function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
-endfunction
-
-" Highlight currently open buffer in NERDTree
-autocmd BufEnter * call SyncTree()
+"function! SyncTree()
+"  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+"    NERDTreeFind
+"    wincmd p
+"  endif
+"endfunction
+"
+"" Highlight currently open buffer in NERDTree
+" autocmd BufEnter * call SyncTree()
 
 "Plugin - File System Navigation - nerdtree-git-plugin
 "-----------
 "Plugin - File System Navigation - vim-nerdtree-syntax-highlight
 "-----------
+:set lazyredraw
+
 "Plugin - File System Navigation - vim-devicons
 "-----------
 "Plugin - File System Navigation - vim-gitgutter
@@ -261,8 +317,9 @@ let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclu
 "-----------
 "Plugin - Text Manipulation - nerd-commenter
 "-----------
-vmap <Ctrl-/> <plug>NERDCommenterToggle
-nmap <Ctrl-/> <plug>NERDCommenterToggle
+filetype plugin on
+vmap <C-_> <plug>NERDCommenterToggle<CR>gv " <C-_> is the vim version for <C-/>
+nmap <C-_> <plug>NERDCommenterToggle " <C-_> is the vim version for <C-/>
 
 "Plugin - General Vim Plugin - nvim-treesitter
 "-----------
