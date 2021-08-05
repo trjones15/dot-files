@@ -8,6 +8,9 @@ endif
 
 "Initialize Plugin System
 "-----------
+" Plugins are installed by running :PlugInstall in Normal mode
+" Plugins can be cleaned up by running :PlugClean in Normal mode
+
 call plug#begin('~/.vim/plugged') "Specify a directory for plugins
 
 "Language Server Protocol
@@ -43,12 +46,17 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'morhetz/gruvbox'
 Plug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'} " requires languages to be installed :TSInstall python, :TSInstall go
 Plug 'vim-airline/vim-airline'
-Plug 'vim-ariline/vim-airline-themes'
+"Plug 'vim-ariline/vim-airline-themes' wasn't working with PlugInstall
 
 "vim-devicons says it needs to be the last plugin installed
+    " Steps to make work... 
+    " 1.1 Go to nerd-fonts not in the WSL Ubuntu Shell not in the WSL Ubuntu
+    " 1.2 Find a patched font not in the WSL Ubuntu Shell not in the WSL
+    " 1.3 Download and install the patched font in windows... not in the WSL Ubuntu Shell
+    " 2.1 In Windows, open up the terminal and go to the Ubuntu settings
+    " 2.2 Find fonts and select the patched nerd-font that you installed
 Plug 'ryanoasis/vim-devicons' " adds file specific icons to NERDTree files and folders
 call plug#end()
-
 
 
 "General Vim Configurations
@@ -61,7 +69,7 @@ call plug#end()
 
 "FONT
 "-----------
-:set guifont=Hack
+":set guifont=Htestack\ Regular\ Nerd\ Font\ Complete\ 12 not needed since font is set at the WSL level
 
 "DISPLAY
 "-----------
@@ -92,7 +100,7 @@ call plug#end()
 "HIGHLIGHTING
 "------
 :syntax on
-:set cursorline
+:set cursorline 
 ":set cursorcolumn
 
 "COLOR:
@@ -324,6 +332,7 @@ nmap <C-_> <plug>NERDCommenterToggle " <C-_> is the vim version for <C-/>
 
 "Plugin - General Vim Plugin - nvim-treesitter
 "-----------
+:set textwidth=0
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "go", "python" },     -- one of "all", "language", or a list of languages
