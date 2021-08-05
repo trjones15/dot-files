@@ -43,8 +43,8 @@ Plug 'scrooloose/nerdcommenter'
 
 "General Vim Plugin
 "-----------
-Plug 'morhetz/gruvbox'
-Plug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'} " requires languages to be installed :TSInstall python, :TSInstall go
+Plug 'morhetz/gruvbox' "color scheme
+Plug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'} " enhanced syntax highlighter - requires languages to be installed :TSInstall python, :TSInstall go
 Plug 'vim-airline/vim-airline'
 "Plug 'vim-ariline/vim-airline-themes' wasn't working with PlugInstall
 
