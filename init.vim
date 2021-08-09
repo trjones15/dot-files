@@ -73,8 +73,8 @@ call plug#end()
 
 "MAPPINGS
 "-----------
-:noremap <leader>gb <C-o> "go backwards in jumps
-:noremap <leader>gf <C-i> "go forward in jumps
+:noremap <leader>gb <C-o>
+:noremap <leader>gf <C-i>
 :inoremap jk <Esc>
 :inoremap kj <Esc>
 
