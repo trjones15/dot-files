@@ -473,15 +473,20 @@ call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
 
 autocmd VimEnter * NERDTree | wincmd p " Start NERDTree and put the cursor back in the other window.
 
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif " Exit Vim if NERDTree is the only window remaining in the only tab.
 
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif " Close the tab if NERDTree is the only window remaining in it.
 
-" Mirror the NERDTree before showing it. This makes it the same on all tabs.
-nnoremap <C-n> :NERDTreeMirror<CR>:NERDTreeFocus<CR> 
-
 " Switch active window command
 noremap <leader>w <C-w>w 
+
+" Always put cursor back in file buffer for the tab name
+nnoremap gt :wincmd l \| :tabn <CR>
+nnoremap gT :wincmd l \| :tabN <CR>
+
 "function! IsNERDTreeOpen()        
 "  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 "endfunction
