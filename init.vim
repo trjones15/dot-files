@@ -75,8 +75,12 @@ call plug#end()
 "-----------
 :noremap <leader>gb <C-o>
 :noremap <leader>gf <C-i>
+
 :inoremap jk <Esc>
 :inoremap kj <Esc>
+
+"turn off highlighting for a search 
+:nnoremap <leader>h :nohlsearch<CR>
 
 "FONT
 "-----------
@@ -473,8 +477,11 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif " Close the tab if NERDTree is the only window remaining in it.
 
-nnoremap <C-n> :NERDTreeMirror<CR>:NERDTreeFocus<CR> " Mirror the NERDTree before showing it. This makes it the same on all tabs.
+" Mirror the NERDTree before showing it. This makes it the same on all tabs.
+nnoremap <C-n> :NERDTreeMirror<CR>:NERDTreeFocus<CR> 
 
+" Switch active window command
+noremap <leader>w <C-w>w 
 "function! IsNERDTreeOpen()        
 "  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 "endfunction
