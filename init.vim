@@ -3,6 +3,11 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd!
   autocmd VimEnter * PlugInstall
+endifif empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd!
+  autocmd VimEnter * PlugInstall
 endif
 
 "Initialize Plugin System
@@ -74,6 +79,19 @@ call plug#end()
 :set updatetime=300 " *Not my Comment* You will have bad experience for diagnostic messages when it's default 4000.
 :set timeoutlen=500
 
+" Vim Diff before saving
+" see diff with :DiffSaved
+" exit diff with :q or :diffoff - diffoff has an issue where it doesn't
+" consolidate the diff screens
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+
 "MAPPINGS
 "-----------
 :noremap <leader>gb <C-o>
@@ -87,7 +105,7 @@ call plug#end()
 ":nmap jk <Esc>
 ":nmap kj <Esc>
 "turn off highlighting for a search 
-:nnoremap <leader>h :nohlsearch<CR>
+":nnoremap <leader>h :nohlsearch<CR>
 
 "FONT
 "-----------
@@ -112,7 +130,8 @@ call plug#end()
 "COPY/PASTE:
 "-----------
 :set viminfo='100,<1000,s10,h "Increases the memory limit from 50 lines to 1000 lines
-:set clipboard=unnamedplus
+" On linux with ssh you need to run ssh -X and possibly xclip and xQuartz
+:set clipboard^=unnamed,unnamedplus
 
 "NUMBERING:
 "----------
@@ -472,6 +491,24 @@ set shortmess+=c
 "" Resume latest coc list
 "nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+"Plugin - Vim-Go
+"-----------
+let g:go_debug_windows = {
+    \ 'vars':       'leftabove 40vnew',
+    \ 'stack':      'leftabove 15new',
+    \ 'goroutines': 'botright 10new',
+    \ 'out':        'botright 5new',
+    \ }
+
+let g:go_debug_mappings = {
+    \ '(go-debug-continue)': {'key': 'c', 'arguments': '<nowait>'},
+    \ '(go-debug-stop)': {'key': 'q'},
+    \ '(go-debug-next)': {'key': 'n', 'arguments': '<nowait>'},
+    \ '(go-debug-step)': {'key': 's'},
+    \ '(go-debug-breakpoint)': {'key': 'b'},
+    \ '(go-debug-stepout)': {'key': 'o'},
+    \ '(go-debug-print)': {'key': 'p'},
+    \ } 
 
 "Plugin - File System Navigation
 "-----------
@@ -480,7 +517,7 @@ set shortmess+=c
 nmap <C-n> :NERDTreeToggle<CR>
 " open NERDTree automatically
 "autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * NERDTree
+autocmd VimEnter * NERDTree | wincmd p
 
 let g:NERDTreeGitStatusWithFlags = 1
 "let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -537,6 +574,7 @@ noremap <leader>w <C-w>w
 nnoremap gt :wincmd l \| :tabn <CR>
 nnoremap gT :wincmd l \| :tabN <CR>
 
+nnoremap <leader>lf :NERDTreeFind<CR>
 "function! IsNERDTreeOpen()        
 "  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 "endfunction
@@ -602,7 +640,7 @@ require('telescope').setup{
       },
     },
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-    file_ignore_patterns = {},
+    file_ignore_patterns = { "go.sum" },
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
     winblend = 0,
     border = {},
@@ -640,3 +678,4 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+
