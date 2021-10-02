@@ -49,7 +49,7 @@ return require('packer').startup(function(use)
     -- File Navigation - File Directory
     use {
         'kyazdani42/nvim-tree.lua',
-        requires = 'kyazdani42/nvim-web-devicons'
+        requires = 'kyazdani42/nvim-web-devicons',
     }
     -- File Navigation - Fuzzy File Finder
     use {

@@ -1,7 +1,6 @@
 -- Setup nvim-cmp.
 local cmp = require('cmp')
 local mapping = require('mappings.nvim-cmp')
-local servers = require('plugins.configs.nvim-lspconfig')
 
 cmp.setup({
     snippet = {
@@ -22,6 +21,7 @@ cmp.setup({
 })
 
 -- Setup lspconfig.
+local servers = { 'pyright', 'gopls' }
 for _, server in ipairs(servers) do
 require('lspconfig')[server].setup {
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
