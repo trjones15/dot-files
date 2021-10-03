@@ -1,12 +1,9 @@
-vim.lsp.set_log_level("debug")
 vim.g.python3_host_prog = '/Users/tjones/.pyenv/shims/python'
-
-local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    print("onattached")
+    print('on_attach')
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -37,14 +34,4 @@ local on_attach = function(client, bufnr)
 
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'gopls' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach{},
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
+return on_attach
