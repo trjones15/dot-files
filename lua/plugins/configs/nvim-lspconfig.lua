@@ -1,4 +1,4 @@
-vim.g.python3_host_prog = '/Users/tjones/.pyenv/shims/python'
+vim.g.python3_host_prog = '/home/tjones/.pyenv/shims/python'
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
