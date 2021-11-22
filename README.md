@@ -8,3 +8,4 @@ Usage:
 5. Install go-pls binaries with :GoInstallBinaries
 6. Install python language server with ```npm i -g pyright```
 7. Install ripgrep (It is necessary for fuzzy grep aka the telescope plugin)
+8. Change pyenv directory in plugins/configs/nvim-lspconfig.lua to the output of 'which python'
