@@ -44,6 +44,12 @@ require'nvim-tree'.setup {
     args = {}
   },
 
+  git = {
+    enable = true,
+    ignore = true,
+    timeout = 400,
+  },
+
   view = {
     -- width of the window, can be either a number (columns) or a string in `%`
     width = 30,
