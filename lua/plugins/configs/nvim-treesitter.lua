@@ -5,5 +5,3 @@ require'nvim-treesitter.configs'.setup {
     disable = {},  -- list of language that will be disabled
   },
 }
-
-
