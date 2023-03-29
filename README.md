@@ -5,5 +5,7 @@ This is a a repo to my dot files
 
 # Troubleshooting
 * If your zsh is really slow in large git repo's then run
-> git config --add oh-my-zsh.hide-status 1
-> git config --add oh-my-zsh.hide-dirty 1
+```
+git config --add oh-my-zsh.hide-status 1
+git config --add oh-my-zsh.hide-dirty 1
+```
