@@ -13,7 +13,7 @@ require(config_pwd..'telescope-fzf-native')
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local nvim_lsp = require('lspconfig')
-local servers = { 'pyright', 'gopls' }
+local servers = { 'pyright', 'gopls', 'lua_ls', 'vimls' }
 
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
