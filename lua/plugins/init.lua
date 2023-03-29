@@ -14,12 +14,13 @@ require(config_pwd..'telescope-fzf-native')
 -- map buffer local keybindings when the language server attaches
 local nvim_lsp = require('lspconfig')
 local servers = { 'pyright', 'gopls' }
+
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = attach_func,
     flags = {
       debounce_text_changes = 150,
     },
-    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
   }
+
 end
