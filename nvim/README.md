@@ -1,4 +1,4 @@
-This is a repo containing my nvim configurations. 
+This is a folder containing my nvim configurations. 
 
 Usage:
 1. Download Repo
