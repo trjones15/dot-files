@@ -68,7 +68,5 @@ return require('packer').startup(function(use)
     use 'vim-airline/vim-airline'
 
     -- Still to do 
-    -- 0. automatically have nvim-tree show up 
     -- 5. work on a new shell https://starship.rs/
-    -- 6. source with dotfiles direcotry
 end)

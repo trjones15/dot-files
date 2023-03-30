@@ -28,8 +28,10 @@ opt.fileencoding = 'utf-8'
 -- Copy/Paste
 opt.shada = "'100,<1000,s1000,/100" -- '<the number of marks that are saved>,<the number of lines in a register>,<specify the maximum size of an item's content in KiB>,<number of search patterns stored>
 opt.clipboard = 'unnamed,unnamedplus'
+opt.mouse = ""
 
 -- Message/Error Alerts
 opt.shortmess:append('c')
 
 -- TODO: Write diff with saved in lua and assign keymap
+
