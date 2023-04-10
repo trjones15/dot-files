@@ -1,0 +1,29 @@
+{
+      "If Error": {
+        "prefix": "err",
+        "body": [
+          "if err != nil {",
+          "  $0",
+          "}"
+        ]
+      },
+      "Table driven test": {
+        "prefix": "tabletest",
+        "body": [
+          "func Test${1:YourFunc}(t *testing.T) {",
+          "\ttestcases := map[string]struct{",
+          "\t\tname string",
+          "\t}{",
+          "\t\t{",
+          "\t\t\tname: \"happy path\",",
+          "\t\t},",
+          "\t}",
+          "\tfor testcaseName, testcase := range testcases {",
+          "\t\tt.Run(testcaseName, func(t *testing.T) {",
+          "\t\t})",
+          "\t}",
+          "}"
+        ],
+        "description": "Create basic structure for a table driven test"
+    }
+}

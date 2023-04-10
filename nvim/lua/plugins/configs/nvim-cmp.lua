@@ -2,21 +2,19 @@
 local cmp = require('cmp')
 local mapping = require('mappings.nvim-cmp')
 
+require("luasnip.loaders.from_vscode").lazy_load({paths = {"~/.config/nvim/lua/plugins/configs/snippets"}})
+
 cmp.setup({
-    snippet = {
-      expand = function(args)
-        -- For `vsnip` user.
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` user.
-      end,
-    },
-    mapping = mapping,
-    sources = {
-      { name = 'nvim_lsp' },
-
-      -- For vsnip user.
-      { name = 'vsnip' },
-
-      { name = 'buffer' },
-    }
+  mapping = mapping,
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  }, {
+    { name = 'buffer' },
+  }),
 })
-
