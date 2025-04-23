@@ -100,9 +100,16 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # pyenv
-export PATH="$HOME/.pyenv/shims:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.asdf/shims:/home/tjones/.asdf/bin:$PATH"
+export GOPATH="$HOME/.asdf/shims/go"
+PATH="$GOPATH:$PATH"
+#export PATH="$HOME/.pyenv/shims:$PATH"
+#export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$HOME/.fleetcli/bin
+export GOPATH=$(asdf where golang)/packages
+export GOROOT=$(asdf where golang)/go
+export GOBIN=$(asdf where golang)/bin
+export PATH="$PATH:$GOBIN"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -117,9 +124,9 @@ cd ~
 
 source <(kubectl completion zsh)
 
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+# export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+# eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 tmux a -t dev
 bindkey -v

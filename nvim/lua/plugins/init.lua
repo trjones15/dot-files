@@ -21,7 +21,7 @@ nvim_lsp['gopls'].setup {
   flags = {
     debounce_text_changes = 150,
   },
-  cmd = { '/home/tjones/.asdf/installs/golang/1.22.5/packages/bin/gopls' },
+  cmd = { '/home/tjones/.asdf/installs/golang/1.24.2/bin/gopls' },
 }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
