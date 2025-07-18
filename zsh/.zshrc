@@ -124,9 +124,9 @@ cd ~
 
 source <(kubectl completion zsh)
 
-# export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 
-# eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 tmux a -t dev
 bindkey -v
