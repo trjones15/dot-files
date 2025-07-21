@@ -13,3 +13,7 @@ Usage:
 10. Install ripgrep (It is necessary for fuzzy grep aka the telescope plugin)
 11. Change pyenv directory in plugins/configs/nvim-lspconfig.lua to the output of 'which python'
 12. To get fonts to work, download Droid Sans Mono Nerd Font Complete.otf from https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf and add it as a font to Mac. Then add it as a font to iterm2 or your editor
+
+Rust Setup (Don't install with ASDF):
+1. Download rust: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+2. Run the following command `rustup component add rust-src rustfmt clippy rust-analyzer`
