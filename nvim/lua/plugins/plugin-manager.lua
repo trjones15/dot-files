@@ -30,11 +30,54 @@ end
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
+    --use 'github/copilot.vim'
+    use {
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      event = "InsertEnter",
+      config = function()
+        --require("copilot").setup({
+              --suggestion = { enabled = false },
+              --panel = { enabled = false },
+            --})
+        require('copilot').setup({
+  panel = {
+    enabled = true,
+    auto_refresh = true,
+    keymap = {
+      jump_prev = "[[",
+      jump_next = "]]",
+      accept = "<CR>",
+      refresh = "gr",
+      open = "<M-CR>"
+    },
+    layout = {
+      position = "bottom", -- | top | left | right
+      ratio = 0.4
+    },
+  },
+  })
+      end,
+    }
+
+    use {
+      "zbirenbaum/copilot-cmp",
+      after = { "copilot.lua" },
+      config = function ()
+        require("copilot_cmp").setup()
+      end
+    }
+
     -- Language Server Protocol
     use 'neovim/nvim-lspconfig'
     -- Language Server Protocol - Autocompletion
-    use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/nvim-cmp'
+
+    -- Snippet suggestions
     use 'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
     -- Language Server Protocol - Better Syntax Highlighting

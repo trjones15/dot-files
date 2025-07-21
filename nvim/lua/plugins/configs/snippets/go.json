@@ -3,7 +3,7 @@
         "prefix": "err",
         "body": [
           "if err != nil {",
-          "  $0",
+          "\t$0",
           "}"
         ]
       },
@@ -14,10 +14,11 @@
           "\ttestcases := map[string]struct{",
           "\t\tname string",
           "\t}{",
-          "\t\t{",
+          "\t\t\"test 1\": {",
           "\t\t\tname: \"happy path\",",
           "\t\t},",
           "\t}",
+          "\n",
           "\tfor testcaseName, testcase := range testcases {",
           "\t\tt.Run(testcaseName, func(t *testing.T) {",
           "\t\t})",

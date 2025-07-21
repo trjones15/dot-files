@@ -7,7 +7,7 @@ require'nvim-tree'.setup {
   -- open the tree when running this setup function
   --open_on_setup       = true,
   -- will not open on setup if the filetype is in this list
-  ignore_ft_on_setup  = {},
+  --ignore_ft_on_setup  = {},
   -- closes neovim automatically when the tree is the last **WINDOW** in the view
   --auto_close          = true,
   -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
@@ -56,13 +56,13 @@ require'nvim-tree'.setup {
     side = 'left',
     -- if true the tree will resize itself after opening a file
     --auto_resize = true,
-    mappings = {
+    --mappings = {
       -- custom only false will merge the list with the default mappings
       -- if true, it will only use your list to set the mappings
-      custom_only = false,
+     -- custom_only = false,
       -- list of mappings to set on the tree manually
-      list = {}
-    }
+      --list = {}
+    --}
   }
 }
 
