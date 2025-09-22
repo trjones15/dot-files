@@ -1,5 +1,3 @@
--- Automatically installs packer.nvim
-
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -99,8 +97,6 @@ return require('packer').startup(function(use)
         requires = { {'nvim-lua/plenary.nvim'} }
     }
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' } -- needed for faster fuzzy file finding
-    -- File Navigation - git status
-    use 'airblade/vim-gitgutter'
 
     -- Text Manipulation
     use 'scrooloose/nerdcommenter'
@@ -111,4 +107,8 @@ return require('packer').startup(function(use)
 
     -- Still to do 
     -- 5. work on a new shell https://starship.rs/
+    --
+    use 'rust-lang/rust.vim' -- Rust Language Server
+    use 'mrcjkb/rustaceanvim'
+    use 'mfussenegger/nvim-dap'
 end)

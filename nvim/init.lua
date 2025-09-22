@@ -4,4 +4,5 @@ local cmd = vim.cm
 require('mappings')
 require('config')
 require('plugins')
+vim.opt.clipboard = "unnamed,unnamedplus"
 
