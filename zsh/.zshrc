@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/tjones/.oh-my-zsh"
+export ZSH="/Users/tjones/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -100,11 +100,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # pyenv
-. $HOME/.asdf/asdf.sh
-GOROOT="$(asdf where golang)/go"
-GOPATH="$HOME/go"
-export GOROOT GOPATH
-export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+#GOROOT="$(asdf where golang)/go"
+#GOPATH="$HOME/go"
+#export GOROOT GOPATH
+#export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 export PATH="$HOME/.asdf/shims:/home/tjones/.asdf/bin:$PATH"
 #export GOPATH="$HOME/.asdf/shims/go"
 #PATH="$GOPATH:$PATH"
@@ -116,22 +116,17 @@ export PATH=$PATH:$HOME/.fleetcli/bin
 #export GOBIN=$(asdf where golang)/bin
 #export PATH="$PATH:$GOBIN"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
+#export SDKMAN_DIR="$HOME/.sdkman"
+#[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 cd ~
 
 source <(kubectl completion zsh)
-
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 tmux a -t dev
 bindkey -v
@@ -140,4 +135,4 @@ set keymap vi-command
 autoload -U compinit; compinit
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /home/tjones/.tfenv/versions/1.1.9/terraform terraform
+. "$HOME/.cargo/env"
